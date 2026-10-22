@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Spicy Bites Indian Cuisine - Order Online</title>
+    <link rel="stylesheet" href="fooddeliver.css">
+    <style>
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .qty-btn {
+            background-color: #eee;
+            border: 1px solid #ccc;
+            padding: 2px 8px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .qty-btn:hover {
+            background-color: #ddd;
+        }
+
+        .cart-empty-msg {
+            color: #777;
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Restaurant Header -->
+        <header class="restaurant-header">
+            <h1>Spicy Bites Indian Cuisine</h1>
+            <p class="restaurant-meta"> ⌛ 30-45 min delivery</p>
+        </header>
+        <main class="main-content">
+            <!-- Menu Section -->
+            <section class="menu-section">
+                <h2>Menu</h2>
+                <div class="menu-item" data-id="1" data-name="Chicken Tikka Masala" data-price="500">
+                    <div class="menu-info">
+                        <h3>Chicken Tikka Masala</h3>
+                        <p>Creamy tomato curry with tender chicken.</p>
+                        <span class="price">Rs.500</span>
+                    </div>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="menu-item" data-id="2" data-name="Garlic Naan" data-price="150">
+                    <div class="menu-info">
+                        <h3>Garlic Naan</h3>
+                        <p>Freshly baked flatbread with garlic and herbs.</p>
+                        <span class="price">Rs.150</span>
+                    </div>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+
+                <div class="menu-item" data-id="3" data-name="Vegetable Biryani" data-price="200">
+                    <div class="menu-info">
+                        <h3>Vegetable Biryani</h3>
+                        <p>Aromatic basmati rice cooked with mixed vegetables and spices.</p>
+                        <span class="price">Rs.200</span>
+                    </div>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+
+                <div class="menu-item" data-id="4" data-name="Mango Lassi" data-price="250">
+                    <div class="menu-info">
+                        <h3>Mango Lassi</h3>
+                        <p>Refreshing yogurt-based mango drink.</p>
+                        <span class="price">Rs.250</span>
+                    </div>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+            </section>
+
+            <!-- Shopping Cart Section -->
+            <aside class="cart-section">
+                <div class="cart-sticky">
+                    <h2>Your Cart</h2>
+
+                    <!-- Cart Items Container -->
+                    <div class="cart-items" id="cart-items-container">
+                        <p class="cart-empty-msg">Your cart is empty.</p>
+                    </div>
+
+                    <!-- Cart Total -->
+                    <div class="cart-total-section">
+                        <div class="cart-total">
+                            <span>Total:</span>
+                            <span id="cart-total-price">Rs.0</span>
+                        </div>
+                        <button class="checkout-btn">Proceed to Checkout</button>
+                    </div>
+                </div>
+            </aside>
+        </main>
+    </div>
+    <script>
+        const cart = {};
+        const cartItemsContainer = document.getElementById('cart-items-container');
+        const cartTotalPrice = document.getElementById('cart-total-price');
+        const addButtons = document.querySelectorAll('.menu-item .add-btn');
+
+        // Add event listeners to all "Add to Cart" buttons
+        addButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const menuItem = e.target.closest('.menu-item');
+                const id = menuItem.dataset.id;
+                const name = menuItem.dataset.name;
+                const price = parseFloat(menuItem.dataset.price);
+                addToCart(id, name, price);
+            });
+        });
+        function addToCart(id, name, price) {
+            if (cart[id]) {
+                cart[id].quantity += 1;
+            } else {
+                cart[id] = { name, price, quantity: 1 };
+            }
+            renderCart();
+        }
+        function updateQuantity(id, change) {
+            if (cart[id]) {
+                cart[id].quantity += change;
+                if (cart[id].quantity <= 0) {
+                    delete cart[id];
+                }
+            }
+            renderCart();
+        }
+        function renderCart() {
+            cartItemsContainer.innerHTML = '';
+            let total = 0;
+            const itemKeys = Object.keys(cart);
+
+            if (itemKeys.length == 0) {
+                cartItemsContainer.innerHTML = '<p class="cart-empty-msg">Your cart is empty.</p>';
+                cartTotalPrice.textContent = 'Rs.0';
+                return;
+            }
+
+            itemKeys.forEach(id => {
+                const item = cart[id];
+                const itemSubtotal = item.price * item.quantity;
+                total += itemSubtotal;
+
+                const cartItemEl = document.createElement('div');
+                cartItemEl.className = 'cart-item';
+                cartItemEl.innerHTML = `
+                    <span>${item.quantity}x ${item.name}</span>
+                    <div class="cart-item-controls">
+                        <span>Rs.${itemSubtotal}</span>
+                        <button class="qty-btn" onclick="updateQuantity('${id}', -1)">-</button>
+                        <button class="qty-btn" onclick="updateQuantity('${id}', 1)">+</button>
+                    </div>
+                `;
+                cartItemsContainer.appendChild(cartItemEl);
+            });
+            cartTotalPrice.textContent = `Rs.${total}`;
+        }
+    </script>
+</body>
+
+</html>
