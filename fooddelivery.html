@@ -2,168 +2,428 @@
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spicy Bites Indian Cuisine - Order Online</title>
     <link rel="stylesheet" href="fooddeliver.css">
+
     <style>
+        .main-content {
+            display: grid;
+            grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+            gap: 24px;
+            align-items: start;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border-radius: 12px;
+            background: #fff;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .food-image {
+            width: 140px;
+            height: 120px;
+            object-fit: cover;
+            flex-shrink: 0;
+            border-radius: 10px;
+            background: #f2f2f2;
+        }
+
+        .menu-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .menu-info h3 {
+            margin: 0 0 8px;
+        }
+
+        .menu-info p {
+            margin: 0 0 10px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .price {
+            font-weight: bold;
+            color: #d35400;
+        }
+
+        .add-btn {
+            flex-shrink: 0;
+            padding: 10px 14px;
+            border: none;
+            border-radius: 6px;
+            background: #e85d04;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .add-btn:hover {
+            background: #c94b00;
+        }
+
+        .cart-sticky {
+            position: sticky;
+            top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
         .cart-item-controls {
             display: flex;
             align-items: center;
             gap: 8px;
+            flex-shrink: 0;
         }
 
         .qty-btn {
-            background-color: #eee;
+            background: #eee;
             border: 1px solid #ccc;
-            padding: 2px 8px;
+            padding: 3px 9px;
             cursor: pointer;
             border-radius: 4px;
             font-weight: bold;
         }
 
         .qty-btn:hover {
-            background-color: #ddd;
+            background: #ddd;
         }
 
         .cart-empty-msg {
             color: #777;
             font-style: italic;
+            padding: 12px 0;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            margin: 18px 0;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            background: #218838;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .checkout-btn:hover {
+            background: #19692c;
+        }
+
+        @media (max-width: 800px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .cart-sticky {
+                position: static;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .menu-item {
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .food-image {
+                width: 100%;
+                height: 190px;
+            }
+
+            .menu-info {
+                flex-basis: 100%;
+            }
+
+            .add-btn {
+                width: 100%;
+            }
+
+            .cart-item {
+                flex-wrap: wrap;
+            }
         }
     </style>
 </head>
 
 <body>
     <div class="container">
+
         <!-- Restaurant Header -->
         <header class="restaurant-header">
             <h1>Spicy Bites Indian Cuisine</h1>
-            <p class="restaurant-meta"> ⌛ 30-45 min delivery</p>
+            <p class="restaurant-meta">⌛ 30–45 min delivery</p>
         </header>
+
         <main class="main-content">
+
             <!-- Menu Section -->
             <section class="menu-section">
                 <h2>Menu</h2>
+
+                <!-- Chicken Tikka Masala -->
                 <div class="menu-item" data-id="1" data-name="Chicken Tikka Masala" data-price="500">
+
+                    <img class="food-image"
+                        src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=500&q=80"
+                        alt="Chicken Tikka Masala" loading="lazy"
+                        onerror="this.onerror=null;this.src='https://placehold.co/500x400/f3e0cf/663300?text=Chicken+Tikka+Masala';">
+
                     <div class="menu-info">
                         <h3>Chicken Tikka Masala</h3>
                         <p>Creamy tomato curry with tender chicken.</p>
                         <span class="price">Rs.500</span>
                     </div>
-                    <button class="add-btn">Add to Cart</button>
+
+                    <button class="add-btn" type="button">Add to Cart</button>
                 </div>
+
+                <!-- Garlic Naan -->
                 <div class="menu-item" data-id="2" data-name="Garlic Naan" data-price="150">
+
+                    <img class="food-image"
+                        src="https://commons.wikimedia.org/wiki/Special:FilePath/ButterNaan.JPG?width=500"
+                        alt="Garlic Naan" loading="lazy"
+                        onerror="this.onerror=null;this.src='https://placehold.co/500x400/f3e0cf/663300?text=Garlic+Naan';">
+
                     <div class="menu-info">
                         <h3>Garlic Naan</h3>
                         <p>Freshly baked flatbread with garlic and herbs.</p>
                         <span class="price">Rs.150</span>
                     </div>
-                    <button class="add-btn">Add to Cart</button>
+
+                    <button class="add-btn" type="button">Add to Cart</button>
                 </div>
 
+                <!-- Vegetable Biryani -->
                 <div class="menu-item" data-id="3" data-name="Vegetable Biryani" data-price="200">
+
+                    <img class="food-image"
+                        src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=500&q=80"
+                        alt="Vegetable Biryani" loading="lazy"
+                        onerror="this.onerror=null;this.src='https://placehold.co/500x400/f3e0cf/663300?text=Vegetable+Biryani';">
+
                     <div class="menu-info">
                         <h3>Vegetable Biryani</h3>
                         <p>Aromatic basmati rice cooked with mixed vegetables and spices.</p>
                         <span class="price">Rs.200</span>
                     </div>
-                    <button class="add-btn">Add to Cart</button>
+
+                    <button class="add-btn" type="button">Add to Cart</button>
                 </div>
 
+                <!-- Mango Lassi -->
                 <div class="menu-item" data-id="4" data-name="Mango Lassi" data-price="250">
+
+                    <img class="food-image"
+                        src="https://images.unsplash.com/photo-1546173159-315724a31696?auto=format&fit=crop&w=500&q=80"
+                        alt="Mango Lassi" loading="lazy"
+                        onerror="this.onerror=null;this.src='https://placehold.co/500x400/f3e0cf/663300?text=Mango+Lassi';">
+
                     <div class="menu-info">
                         <h3>Mango Lassi</h3>
                         <p>Refreshing yogurt-based mango drink.</p>
                         <span class="price">Rs.250</span>
                     </div>
-                    <button class="add-btn">Add to Cart</button>
+
+                    <button class="add-btn" type="button">Add to Cart</button>
                 </div>
+
             </section>
 
-            <!-- Shopping Cart Section -->
+            <!-- Shopping Cart -->
             <aside class="cart-section">
                 <div class="cart-sticky">
+
                     <h2>Your Cart</h2>
 
-                    <!-- Cart Items Container -->
                     <div class="cart-items" id="cart-items-container">
                         <p class="cart-empty-msg">Your cart is empty.</p>
                     </div>
 
-                    <!-- Cart Total -->
                     <div class="cart-total-section">
                         <div class="cart-total">
                             <span>Total:</span>
                             <span id="cart-total-price">Rs.0</span>
                         </div>
-                        <button class="checkout-btn">Proceed to Checkout</button>
+
+                        <button class="checkout-btn" type="button">
+                            Proceed to Checkout
+                        </button>
                     </div>
+
                 </div>
             </aside>
+
         </main>
     </div>
+
     <script>
         const cart = {};
-        const cartItemsContainer = document.getElementById('cart-items-container');
-        const cartTotalPrice = document.getElementById('cart-total-price');
-        const addButtons = document.querySelectorAll('.menu-item .add-btn');
 
-        // Add event listeners to all "Add to Cart" buttons
+        const cartItemsContainer =
+            document.getElementById('cart-items-container');
+
+        const cartTotalPrice =
+            document.getElementById('cart-total-price');
+
+        const addButtons =
+            document.querySelectorAll('.menu-item .add-btn');
+
+        // Add event listeners to all Add to Cart buttons
         addButtons.forEach(button => {
-            button.addEventListener('click', (e) => {
-                const menuItem = e.target.closest('.menu-item');
+            button.addEventListener('click', event => {
+                const menuItem =
+                    event.currentTarget.closest('.menu-item');
+
                 const id = menuItem.dataset.id;
                 const name = menuItem.dataset.name;
-                const price = parseFloat(menuItem.dataset.price);
+                const price = Number(menuItem.dataset.price);
+
                 addToCart(id, name, price);
             });
         });
+
+        // Add item to cart
         function addToCart(id, name, price) {
             if (cart[id]) {
                 cart[id].quantity += 1;
             } else {
-                cart[id] = { name, price, quantity: 1 };
+                cart[id] = {
+                    name: name,
+                    price: price,
+                    quantity: 1
+                };
             }
+
             renderCart();
         }
+
+        // Update item quantity
         function updateQuantity(id, change) {
-            if (cart[id]) {
-                cart[id].quantity += change;
-                if (cart[id].quantity <= 0) {
-                    delete cart[id];
-                }
+            if (!cart[id]) return;
+
+            cart[id].quantity += change;
+
+            if (cart[id].quantity <= 0) {
+                delete cart[id];
             }
+
             renderCart();
         }
+
+        // Render cart and calculate total
         function renderCart() {
             cartItemsContainer.innerHTML = '';
+
             let total = 0;
             const itemKeys = Object.keys(cart);
 
-            if (itemKeys.length == 0) {
-                cartItemsContainer.innerHTML = '<p class="cart-empty-msg">Your cart is empty.</p>';
+            if (itemKeys.length === 0) {
+                cartItemsContainer.innerHTML =
+                    '<p class="cart-empty-msg">Your cart is empty.</p>';
+
                 cartTotalPrice.textContent = 'Rs.0';
                 return;
             }
 
             itemKeys.forEach(id => {
                 const item = cart[id];
-                const itemSubtotal = item.price * item.quantity;
-                total += itemSubtotal;
+                const subtotal = item.price * item.quantity;
 
-                const cartItemEl = document.createElement('div');
-                cartItemEl.className = 'cart-item';
-                cartItemEl.innerHTML = `
-                    <span>${item.quantity}x ${item.name}</span>
-                    <div class="cart-item-controls">
-                        <span>Rs.${itemSubtotal}</span>
-                        <button class="qty-btn" onclick="updateQuantity('${id}', -1)">-</button>
-                        <button class="qty-btn" onclick="updateQuantity('${id}', 1)">+</button>
-                    </div>
-                `;
-                cartItemsContainer.appendChild(cartItemEl);
+                total += subtotal;
+
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+
+                const nameElement = document.createElement('span');
+                nameElement.textContent =
+                    `${item.quantity}x ${item.name}`;
+
+                const controls = document.createElement('div');
+                controls.className = 'cart-item-controls';
+
+                const subtotalElement = document.createElement('span');
+                subtotalElement.textContent = `Rs.${subtotal}`;
+
+                const minusButton = document.createElement('button');
+                minusButton.className = 'qty-btn';
+                minusButton.type = 'button';
+                minusButton.textContent = '-';
+                minusButton.setAttribute(
+                    'aria-label', `Remove one ${item.name}`
+                );
+                minusButton.addEventListener('click', () => {
+                    updateQuantity(id, -1);
+                });
+
+                const plusButton = document.createElement('button');
+                plusButton.className = 'qty-btn';
+                plusButton.type = 'button';
+                plusButton.textContent = '+';
+                plusButton.setAttribute(
+                    'aria-label', `Add one ${item.name}`
+                );
+                plusButton.addEventListener('click', () => {
+                    updateQuantity(id, 1);
+                });
+
+                controls.append(
+                    subtotalElement,
+                    minusButton,
+                    plusButton
+                );
+
+                cartItem.append(nameElement, controls);
+                cartItemsContainer.appendChild(cartItem);
             });
+
             cartTotalPrice.textContent = `Rs.${total}`;
         }
+
+        // Basic checkout feedback
+        document.querySelector('.checkout-btn')
+            .addEventListener('click', () => {
+                if (Object.keys(cart).length === 0) {
+                    alert(
+                        'Your cart is empty. Please add items before checkout.'
+                    );
+                    return;
+                }
+
+                alert(
+                    `Order total: ${cartTotalPrice.textContent}\n` +
+                    'Your cart is ready for checkout.'
+                );
+            });
     </script>
 </body>
 
-</html>
+</html>`
