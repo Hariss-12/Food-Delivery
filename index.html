@@ -454,8 +454,12 @@
                     return;
                 }
 
-                const orderId =
-                    `SB-${Date.now().toString(36).toUpperCase()}`;
+                const timestamp = Date.now().toString(36).toUpperCase();
+                const randomSuffix = Math.random()
+                    .toString(36)
+                    .slice(2, 8)
+                    .toUpperCase();
+                const orderId = `SB-${timestamp}-${randomSuffix}`;
                 const orderedItems = document.getElementById('ordered-items');
                 let orderTotal = 0;
 
