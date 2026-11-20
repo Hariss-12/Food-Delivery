@@ -137,6 +137,34 @@
             background: #19692c;
         }
 
+        .order-confirmation {
+            margin-top: 20px;
+            padding: 16px;
+            border: 1px solid #cfe7d3;
+            border-radius: 10px;
+            background: #f3fbf4;
+        }
+
+        .order-confirmation h3 {
+            margin-bottom: 10px;
+            color: #19692c;
+        }
+
+        .order-confirmation p {
+            margin: 6px 0;
+        }
+
+        .order-confirmation ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .order-confirmation .demo-note {
+            margin-top: 12px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
         @media (max-width: 800px) {
             .main-content {
                 grid-template-columns: 1fr;
@@ -279,6 +307,15 @@
                         </button>
                     </div>
 
+                    <section class="order-confirmation" id="order-confirmation"
+                        aria-live="polite" hidden>
+                        <h3>Order placed successfully!</h3>
+                        <p>Order ID: <strong id="order-id"></strong></p>
+                        <ul id="ordered-items"></ul>
+                        <p><strong>Total: <span id="order-total"></span></strong></p>
+                        <p class="demo-note">Demo order only; no payment was processed.</p>
+                    </section>
+
                 </div>
             </aside>
 
@@ -408,7 +445,6 @@
             cartTotalPrice.textContent = `Rs.${total}`;
         }
 
-        // Basic checkout feedback
         document.querySelector('.checkout-btn')
             .addEventListener('click', () => {
                 if (Object.keys(cart).length === 0) {
@@ -418,10 +454,29 @@
                     return;
                 }
 
-                alert(
-                    `Order total: ${cartTotalPrice.textContent}\n` +
-                    'Your cart is ready for checkout.'
-                );
+                const orderId =
+                    `SB-${Date.now().toString(36).toUpperCase()}`;
+                const orderedItems = document.getElementById('ordered-items');
+                let orderTotal = 0;
+
+                orderedItems.replaceChildren();
+                Object.values(cart).forEach(item => {
+                    const subtotal = item.price * item.quantity;
+                    orderTotal += subtotal;
+
+                    const listItem = document.createElement('li');
+                    listItem.textContent =
+                        `${item.quantity} x ${item.name} - Rs.${subtotal}`;
+                    orderedItems.appendChild(listItem);
+                });
+
+                document.getElementById('order-id').textContent = orderId;
+                document.getElementById('order-total').textContent =
+                    `Rs.${orderTotal}`;
+                document.getElementById('order-confirmation').hidden = false;
+
+                Object.keys(cart).forEach(id => delete cart[id]);
+                renderCart();
             });
     </script>
 </body>
